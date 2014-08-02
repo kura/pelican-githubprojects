@@ -61,7 +61,7 @@ variable, as below.
     {% if GITHUB_USER %}
         <h1>Projects</h1>
         {% for project in github_projects %}
-            <h2>{{ project.name }} <sup> ({{ project.language }})</sup></h2>
+            <h2>{{ project.name }} <sup>({{ project.language }})</sup></h2>
             <p>{{ project.description }}</p>
             <p>
                 <a href="{{ project.homepage }}">Homepage</a>
