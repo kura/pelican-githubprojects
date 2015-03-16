@@ -16,6 +16,9 @@ setup(name='pelican_vimeo',
       long_description=open("README.rst").read(),
       license='MIT',
       platforms=['linux'],
+      install_requires=[
+          'pelican',
+      ],
       packages=find_packages(exclude=["*.tests"]),
       package_data={'': ['LICENSE', ]},
       classifiers=[
