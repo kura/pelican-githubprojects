@@ -32,6 +32,17 @@ Add a setting with your GitHub username.
 
     GITHUB_USER = 'kura'
 
+Optionally specify the order in which projects appear.
+The choices for each parameter are provided at
+https://developer.github.com/v3/repos/#list-user-repositories.
+
+.. code-block:: python
+
+    GITHUB_USER_TYPE = "owner"
+    GITHUB_SORT_BY = "created"
+    GITHUB_DIRECTION = "desc"
+
+
 Available data
 ==============
 
@@ -62,9 +73,9 @@ variable, as below.
         <h1>Projects</h1>
         {% for project in github_projects %}
             <h2>{{ project.name }} <sup>({{ project.language }})</sup></h2>
-            <p>{{ project.description }}</p>
+            {% if project.description %}<p>{{ project.description }}</p>{% endif %}
             <p>
-                <a href="{{ project.homepage }}">Homepage</a>
+                {% if project.homepage %}<a href="{{ project.homepage }}">Homepage</a>{% endif %}
                 <a href="{{ project.github_url }}">GitHub</a>
             </p>
         {% endfor %}
