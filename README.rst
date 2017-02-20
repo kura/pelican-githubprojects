@@ -32,6 +32,14 @@ Add a setting with your GitHub username.
 
     GITHUB_USER = 'kura'
 
+Optionally you can say how the projects will be sorted (name by default).
+
+.. code-block:: python
+
+    GITHUB_SORT_BY = ['stars','name']
+
+To sort in descending order use the Jinja `reverse` filter in your template.
+
 Available data
 ==============
 
@@ -49,6 +57,22 @@ Available data
     The homepage of your project (as set on GitHub.)
 :github_url:
     The web page URL of your project on GitHub (not the GIT or API URL.)
+:stars:
+    Number of stars for the project.
+:size:
+    Size of the project, in kilobytes.
+:fork:
+    Whether the project is forked from another project.
+:forks:
+    Number of forks of the project.
+:private:
+    Whether the repository is private.
+:created:
+    Time of creation of the repository as a string.
+:updated:
+    Time of last update of the repository as a string.
+:id:
+    Repository ID.
 
 Usage
 =====
@@ -69,7 +93,6 @@ variable, as below.
             </p>
         {% endfor %}
     {% endif %}
-
 
 License
 =======

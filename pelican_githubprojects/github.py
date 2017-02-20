@@ -67,10 +67,19 @@ class GithubProjects(object):
             r = {
                 'name': repo['name'], 'language': repo['language'],
                 'description': repo['description'], 'github_url': repo['html_url'],
-                'homepage': repo['homepage']
+                'homepage': repo['homepage'], 'stars': repo['stargazers_count'],
+                'size': repo['size'], 'fork': repo['fork'], 'private': repo['private'],
+                'created': repo['created_at'], 'updated': repo['updated_at'],
+                'forks': repo['forks'], 'id': repo['id']
             }
             projects.append(r)
-        return sorted(projects, key=itemgetter('name'))
+            
+        sort_by = ['name']
+        
+        if 'GITHUB_SORT_BY' in self.gen.settings.keys():
+          sort_by = self.gen.settings['GITHUB_SORT_BY']
+            
+        return sorted(projects, key=itemgetter(*sort_by))
 
 
 def initialize(gen):
@@ -86,3 +95,4 @@ def fetch(gen, metadata):
 def register():
     signals.article_generator_init.connect(initialize)
     signals.article_generator_context.connect(fetch)
+
