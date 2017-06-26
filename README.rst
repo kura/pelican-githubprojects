@@ -32,13 +32,16 @@ Add a setting with your GitHub username.
 
     GITHUB_USER = 'kura'
 
-Optionally you can say how the projects will be sorted (name by default).
+Optionally specify the order in which projects appear.
+The choices for each parameter are provided at
+https://developer.github.com/v3/repos/#list-user-repositories.
 
 .. code-block:: python
 
-    GITHUB_SORT_BY = ['stars','name']
+    GITHUB_USER_TYPE = "owner"
+    GITHUB_SORT_BY = "created"
+    GITHUB_DIRECTION = "desc"
 
-To sort in descending order use the Jinja `reverse` filter in your template.
 
 Available data
 ==============
@@ -86,9 +89,9 @@ variable, as below.
         <h1>Projects</h1>
         {% for project in github_projects %}
             <h2>{{ project.name }} <sup>({{ project.language }})</sup></h2>
-            <p>{{ project.description }}</p>
+            {% if project.description %}<p>{{ project.description }}</p>{% endif %}
             <p>
-                <a href="{{ project.homepage }}">Homepage</a>
+                {% if project.homepage %}<a href="{{ project.homepage }}">Homepage</a>{% endif %}
                 <a href="{{ project.github_url }}">GitHub</a>
             </p>
         {% endfor %}

@@ -37,7 +37,7 @@ from pelican import signals
 
 
 logger = logging.getLogger(__name__)
-GITHUB_API = "https://api.github.com/users/{0}/repos"
+GITHUB_API = "https://api.github.com/users/{username}/repos?type={user_type}&sort={sort_by}&direction={direction}"
 
 
 class GithubProjects(object):
@@ -45,7 +45,19 @@ class GithubProjects(object):
     def __init__(self, gen):
         self.content = None
         self.gen = gen
-        github_url = GITHUB_API.format(self.gen.settings['GITHUB_USER'])
+        username = gen.settings["GITHUB_USER"]
+
+        # Params supported at
+        # https://developer.github.com/v3/repos/#list-user-repositories
+        user_type = gen.settings.get("GITHUB_USER_TYPE", "owner")
+        sort_by = gen.settings.get("GITHUB_SORT_BY", "full_name")
+        direction = gen.settings.get(
+            "GITHUB_DIRECTION", "asc" if sort_by == "full_name" else "desc")
+
+        github_url = GITHUB_API.format(username=username,
+                                       user_type=user_type,
+                                       sort_by=sort_by,
+                                       direction=direction)
         try:
             f = urlopen(github_url)
             # 3 vs 2 makes us have to do nasty stuff to get encoding without
@@ -73,13 +85,7 @@ class GithubProjects(object):
                 'forks': repo['forks'], 'id': repo['id']
             }
             projects.append(r)
-            
-        sort_by = ['name']
-        
-        if 'GITHUB_SORT_BY' in self.gen.settings.keys():
-          sort_by = self.gen.settings['GITHUB_SORT_BY']
-            
-        return sorted(projects, key=itemgetter(*sort_by))
+        return projects
 
 
 def initialize(gen):
