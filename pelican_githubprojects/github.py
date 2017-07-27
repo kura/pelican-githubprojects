@@ -37,7 +37,7 @@ from pelican import signals
 
 
 logger = logging.getLogger(__name__)
-GITHUB_API = "https://api.github.com/users/{username}/repos?type={user_type}&sort={sort_by}&direction={direction}"
+GITHUB_API = "https://api.github.com/users/{username}/repos?type={user_type}&sort={sort_by}&direction={direction}&per_page=200"  # per_page=200: maybe make this a plugin parameter
 
 
 class GithubProjects(object):
